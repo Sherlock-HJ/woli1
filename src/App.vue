@@ -169,7 +169,7 @@
     }
 
     .router-link-active a {
-        color: white;
+        color: white !important;
     }
 
     .layout-logo {

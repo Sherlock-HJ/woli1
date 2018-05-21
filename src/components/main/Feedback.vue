@@ -25,7 +25,7 @@ export default {
       toggleSelected: false,
       toggleBtnClass: 'ghost',
       openBtnTitle: '微信',
-      openBtnUrl: 'javascript:window.location.href=\'weixin://\''
+      openBtnUrl: 'weixin://'
     }
   },
   computed: {
@@ -51,7 +51,7 @@ export default {
         this.toggleBtnClass = 'ghost'
 
         this.openBtnTitle = '微信'
-        this.openBtnUrl = 'javascript:window.location.href=\'weixin://\''
+        this.openBtnUrl = 'weixin://'
       }
     },
     openTencent() {
