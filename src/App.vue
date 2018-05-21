@@ -2,7 +2,7 @@
     <div id="app">
         <Layout v-if="is768()">
             <!--小 屏幕设备-->
-            <ul class="navbar" >
+            <ul class="navbar">
                 <Row>
                     <Col :xs="6" :sm="6" :md="6" :lg="6" class="nav-item">
                     <router-link tag="li" to="/home"><a>首页</a></router-link>
@@ -23,44 +23,48 @@
                 </Row>
 
             </ul>
-            <router-view :style="appStyled"></router-view>
+            <transition name="fade" mode="out-in">
 
+                <router-view :style="appStyled"></router-view>
+            </transition>
         </Layout>
-            <Layout v-else>
-                <Header>
-                    <!--大 屏幕设备-->
-                    <Menu class="menu" mode="horizontal" theme="dark" :active-name="1" @on-select="onSelect" >
-                        <div class="layout-logo">
-                            <h2>窝里</h2>
-                        </div>
-                        <div class="layout-nav">
+        <Layout v-else>
+            <Header>
+                <!--大 屏幕设备-->
+                <Menu class="menu" mode="horizontal" theme="dark" :active-name="menuActiveName" @on-select="onSelect">
+                    <div class="layout-logo">
+                        <h2>窝里</h2>
+                    </div>
+                    <div class="layout-nav">
 
-                            <MenuItem :name="1">
-                                首页
-                            </MenuItem>
-                            <MenuItem :name="2">
-                                密码
-                            </MenuItem>
-                            <MenuItem :name="3">
-                                反馈
-                            </MenuItem>
-                            <MenuItem :name="4">
-                                其他
-                            </MenuItem>
-                        </div>
-                    </Menu>
+                        <MenuItem name="home">
+                            首页
+                        </MenuItem>
+                        <MenuItem name="pwd-generator">
+                            密码
+                        </MenuItem>
+                        <MenuItem name="feedback">
+                            反馈
+                        </MenuItem>
+                        <MenuItem name="other">
+                            其他
+                        </MenuItem>
+                    </div>
+                </Menu>
 
 
-                </Header>
-                <Content>
+            </Header>
+            <Content>
+                <transition name="fade" mode="out-in">
+
                     <router-view :style="appStyled"></router-view>
+                </transition>
+            </Content>
+            <Footer>
+                <HJFooter></HJFooter>
 
-                </Content>
-                <Footer>
-                    <HJFooter></HJFooter>
-
-                </Footer>
-            </Layout>
+            </Footer>
+        </Layout>
     </div>
 </template>
 
@@ -78,7 +82,8 @@
           padding_bottom: 0,
           margin_top: 0,
           min_height: 0
-        }
+        },
+        menuActiveName: 'home'
       }
     },
     computed: {
@@ -102,25 +107,20 @@
       },
       onSelect(name) {
 
-        if (name === 1) {
-          this.$router.push('home')
-
-        } else if (name === 2) {
-          this.$router.push('pwd-generator')
-
-        } else if (name === 3) {
-          this.$router.push('feedback')
-
-        } else if (name === 4) {
-          this.$router.push('other')
-
-        }
+        this.$router.push(name)
       }
 
     },
-    mounted: function () {
+    watch: {
+      '$route'(to, from) {
+        this.menuActiveName = to.path.slice(1, to.path.lenght)
+
+      }
+    },
+    mounted() {
       this.screenSizehange()
-      this.$el.style.minHeight = this.is768()?  window.screen.availWidth + 'px':'1000px'
+      this.$el.style.minWidth = this.is768() ? window.screen.availWidth + 'px' : '1000px'
+
     }
   }
 </script>
@@ -138,9 +138,6 @@
     #app {
         position: relative;
     }
-
-
-
 
     .text-bold {
         font-weight: 600 !important;
