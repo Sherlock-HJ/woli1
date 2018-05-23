@@ -3,11 +3,9 @@
         <Card>
             <h1>随机密码生成器</h1>
             <h4>一 、随机密码的长度</h4>
-            <Select v-model="cnum" class="num-select">
-                <Option v-for="item in numList" :value="item"
-                        :key="item">{{ item }}
-                </Option>
-            </Select>
+
+            <InputNumber class="num-select" :max="32" :min="species.length" v-model="cnum" ></InputNumber>
+
             <h4>二 、请选择随机密码包含的类型</h4>
             <CheckboxGroup v-model="species" class="spe-check">
                 <Checkbox label="number">数字 0-9</Checkbox>
@@ -16,9 +14,9 @@
                 <Checkbox label="special">特殊字符 +=-@#~,.[]()!%^*$</Checkbox>
             </CheckboxGroup>
             <h4>三 、点击按钮生成密码</h4>
-            <Input v-model="pwd" class="pwd-input"></Input>
-            <Button :disabled="genDisabled" @click="generatorAction">生成密码</Button>
-            <Button class="copy-pwd" type="ghost" :disabled="copyDisabled" :data-clipboard-text="pwd">复制密码</Button>
+            <Input v-model="pwd" class="pwd-input" readonly></Input>
+            <Button :disabled="species.length === 0" @click="generatorAction">生成密码</Button>
+            <Button class="copy-pwd" type="ghost" :disabled="pwd.length === 0" :data-clipboard-text="pwd">复制密码</Button>
 
         </Card>
     </div>
@@ -32,11 +30,8 @@
     name: 'PWDGenerator',
     data() {
       return {
-        numList: [],
         cnum: 6,
         species: ['number'],
-        genDisabled: false,
-        copyDisabled: false,
         pwd: '',
         clipboard: new Clipboard('.copy-pwd')
       }
@@ -44,9 +39,6 @@
     methods: {
       generatorAction() {
         this.pwd = this.generator()
-      },
-      copyAction() {
-        clipboard.copy(this.pwd)
       },
       generator() {
         let number = '0123456789'
@@ -103,24 +95,10 @@
     },
     watch: {
       species(newSpecies) {
-        let count = newSpecies.length
-        this.genDisabled = count === 0
-        this.numList.splice(0)
-        for (let num = count; num <= 32; num++) {
-          this.numList.push(num)
+        if (this.cnum < newSpecies.length) {
+          this.cnum = newSpecies.length
         }
-        if (this.cnum < count) {
-          this.cnum = count
 
-        }
-      },
-      pwd(newPWD) {
-        this.copyDisabled = newPWD.length === 0
-      }
-    },
-    created() {
-      for (let num = 1; num <= 32; num++) {
-        this.numList.push(num)
       }
     },
     mounted() {
