@@ -1,25 +1,62 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="keywords" content="窝里，窝里网，whirlie.cn,whirlie" />
-    <meta name="robots" content="all" />
-    <meta name="description" content="窝里网，欢迎来到我的个人网站窝里，此网站为学习用，会时不时的更新或删除一些内容。" />
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
-    <link rel="icon" href="http://whirlie.cn/favicon.ico">
-    <link rel="stylesheet" href="static/css/bootstrap.css">
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
 
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-    <title>窝里</title>
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
 
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="my_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>my_app</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+  <script>
+    // VConsole 默认会挂载到 `window.VConsole` 上
+    var vConsole = new window.VConsole();
+  </script>
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    var serviceWorkerVersion = '2455991035';
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-<div id="app"></div>
-<!-- built files will be auto injected -->
-<script src="http://whirlie.cn/js/statistical.js"></script>
-
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        }
+      }).then(function(engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        return appRunner.runApp();
+      });
+    });
+  </script>
 </body>
 </html>
