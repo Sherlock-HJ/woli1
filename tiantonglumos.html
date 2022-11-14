@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    #app {
+      word-break: break-all;
+      padding-right: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <ul v-for="(path, index) in deeplinkList" :key="index">
+      <li>
+        <a :href="path" style="width: 100%">{{path}}</a>
+      </li>
+      <div>
+        <select v-if="path.indexOf('discovery') != -1" @change="discoveryPathChange(index, $event)">
+          <option v-for="option in discoveryOptions" :key="option.uuid" :value="option.uuid">{{option.name}}</option>
+        </select>
+        <input v-else style="width: 80%;" v-model="path" @input="pathInput(index, $event)" />
+
+      </div>
+    </ul>
+  </div>
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      data() {
+        return {
+          deepPathList: [
+            'discovery?category_uuid=',
+            'search?q=Love',
+            'user',
+            'user-vip',
+            'user-subscribed-collections',
+            'user-read-collections',
+            'collections/lQ2i9aTXK3vmu0j963CHoA',
+            'stories/n3cp3IxYmeAeukyS5p6azg',
+            'notifications',
+            'notifications?category=comment',
+            'notifications?category=like',
+            'webpage?uri=https://baidu.com',
+          ],
+          deeplinkList: [],
+          discoveryOptions: [
+            { "name": "All", "uuid": "1ajb6wf" },
+            { "name": "Paranormal", "uuid": "1mugq93" },
+            { "name": "Thriller", "uuid": "m173x0" },
+            { "name": "Romance", "uuid": "s88ntd" },
+            { "name": "Horror", "uuid": "arcn4j" },
+            { "name": "Erotica", "uuid": "e3ykup" }
+          ]
+        }
+      },
+      mounted() {
+        this.deeplinkList = this.deepPathList.map((el) => {
+          return `tiantonglumos://${el}`;
+        });
+      },
+      methods: {
+        pathInput(index, event) {
+          this.deeplinkList[index] = event.target.value;
+        },
+        discoveryPathChange(index, event) {
+          this.deeplinkList[index] = `tiantonglumos://${this.deepPathList[index]}${event.target.value}`;
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
